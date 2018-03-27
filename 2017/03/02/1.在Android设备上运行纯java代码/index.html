@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>在Android设备上运行纯java代码 | Möbius Strip World</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">在Android设备上运行纯java代码</h1><a id="logo" href="/.">Möbius Strip World</a><p class="description">That there's some good in this world, and it's worth fighting for.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">在Android设备上运行纯java代码</h1><div class="post-meta">Mar 2, 2017</div><a class="disqus-comment-count" href="/2017/03/02/1.在Android设备上运行纯java代码/#vcomment"><span class="valine-comment-count" data-xid="/2017/03/02/1.在Android设备上运行纯java代码/"></span><span> Comment</span></a><div class="post-content"><h3 id="Android通过java虚拟机实现运行每个app-不过Android的应用程序都是运行在Context上下文环境中的-从没在Android应用的代码中看到main方法-那普通的java程序如何在Android中运行"><a href="#Android通过java虚拟机实现运行每个app-不过Android的应用程序都是运行在Context上下文环境中的-从没在Android应用的代码中看到main方法-那普通的java程序如何在Android中运行" class="headerlink" title="Android通过java虚拟机实现运行每个app,不过Android的应用程序都是运行在Context上下文环境中的,从没在Android应用的代码中看到main方法,那普通的java程序如何在Android中运行."></a>Android通过java虚拟机实现运行每个app,不过Android的应用程序都是运行在Context上下文环境中的,从没在Android应用的代码中看到main方法,那普通的java程序如何在Android中运行.</h3><p>google对java虚拟机进行了修改,只能运行将所有.class文件转为为一个.dex的文件,在Android的dalvik和ART虚拟机上无法直接运行.class文件,但是Google提供了将.class转为dex的工具 – dx</p>
+<ul>
+<li>老版本的sdk存放在<em>SDK\platform-tools</em>下<br></li>
+<li>新的sdk存放在<em>SDK\build-toolsx\xx.xx(版本号)</em>下<br></li>
+</ul>
+<p>dx并没有配置到环境变量中,需要到对应目录下输入命令行.</p>
+<p>首先随便编写一个简单的普通java代码,比如HelloWorld.java,因为没法看到图形化的界面,其中需要一条输出语句分辨程序是否有执行. </p>
+<p>javac编译为HelloWorld.class或使用IDE运行一下生成.class文件.</p>
+<p>在dx的目录打开cmd <code>dx --dex --output=(输出路径) (.class文件路径)</code></p>
+<p>比如: <code>dx --dex --output=D:\Hello.dex HelloWorld.class</code></p>
+<h4 id="这时可能出现以下2个错误"><a href="#这时可能出现以下2个错误" class="headerlink" title="这时可能出现以下2个错误:"></a>这时可能出现以下2个错误:</h4><h5 id="第一个"><a href="#第一个" class="headerlink" title="第一个:"></a>第一个:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PARSE ERROR:</span><br><span class="line">unsupported class file version 52.0</span><br><span class="line">...while parsing (class的绝对路径)</span><br><span class="line">1 error; aborting</span><br></pre></td></tr></table></figure>
+<p>version 52.0是指java8,AS都支持了java8了,并且dx的版本也是新版sdk最新的Platform tool,这个dx居然还不支持,和dx同路径的runtime.properties文件里面指定Runtime.Jvm=1.6,但是用1.7编译的.class是可以的,修改配置文件也无效,不是太清楚是怎么回事.</p>
+<p>该错误可以在javac命令时使用指定版本:</p>
+<p><code>javac -source 1.7 -target 1.7 (.class的绝对路径)</code></p>
+<p>会有一个警告,不用理会即可</p>
+<h5 id="第二个"><a href="#第二个" class="headerlink" title="第二个:"></a>第二个:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PARSE ERROR:</span><br><span class="line">class name (Temp) does not match path (C:/Users/NessCurie/Desktop/HelloWorld.class)</span><br><span class="line">...while parsing C:/Users/NessCurie/Desktop/HelloWorld.class</span><br><span class="line">1 error; aborting</span><br></pre></td></tr></table></figure>
+<p>这里在输入.class的路径时,直接从桌面上拖到cmd上输入了绝对路径,dx的.class文件不支持绝对路径,只能放到dx目录下,使用相对路径. </p>
+<p>解决方式:放到dx目录里面就好了…</p>
+<hr>
+<p>找到生成的Hello.dex文件,需要push手机中,没有root的手机有权限push进去的目录找了几个就只有/data/local/tmp,root了的手机push到任意目录即可.</p>
+<p>这里以data/local/tmp为例:</p>
+<p><code>adb push Hello.dex /data/local/tmp</code></p>
+<p><code>adb shell</code> </p>
+<p>cd到push的dex文件的目录: <code>cd /data/local/tmp</code></p>
+<p>app_process的运行命令格式为:</p>
+<p><code>app_process [vm-options] cmd-dir [options] start-class-name [main-options]</code></p>
+<p>即:<code>app_process  VM选项 (路径名) (类名)</code></p>
+<p>比如:<code>app_process -Djava.class.path=Hello.dex /data/local/tmp HelloWorld</code></p>
+<p>可以看到cmd输出了一句:HelloWorld,到这一步,就成功的在Android上运行了纯java文件.</p>
+<hr>
+<h4 id="修改helloworld为死循环一直输出helloworld-重复上面的步骤-运行Hello-dex"><a href="#修改helloworld为死循环一直输出helloworld-重复上面的步骤-运行Hello-dex" class="headerlink" title="修改helloworld为死循环一直输出helloworld,重复上面的步骤,运行Hello.dex."></a>修改helloworld为死循环一直输出helloworld,重复上面的步骤,运行Hello.dex.</h4><p>再次打开一个cmd,adb shell后ps查看当前运行的进程,经过对比可以看到运行起来的程序进程为app_process.</p>
+<p><img src="ps.png" alt="PS"></p>
+<p>通过命令行启动的进程USER为shell,shell有比较高的权限的.</p>
+<blockquote>
+<p>不过也只有通过命令行启动的情况才是shell,如果在应用中运行命令行启动外部的纯java程序的dex,启动的应用USER是和当前启动它的应用的USER一样的.</p>
+</blockquote>
+<p>运行cmd的工具类可以使用Trinea的ShellUtils,具体可以查看: <a href="http://www.trinea.cn/android/android-java-execute-shell-commands/" target="_blank" rel="noopener">Trinea的ShellUtils介绍</a> </p>
+<p>使用ShellUtils在应用中启动java程序:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"cd /data/local/tmp"</span>;</span><br><span class="line">String s2 = <span class="string">"app_process -Djava.class.path=Temp.dex /data/local/tmp Temp"</span>;</span><br><span class="line"><span class="keyword">final</span> String[] arr = &#123;s1, s2&#125;;</span><br><span class="line"><span class="keyword">new</span> Thread() &#123;	<span class="comment">//死循环放在主线程会造成卡死,得放到子线程</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ShellUtils.execCommand(arr, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.start();</span><br></pre></td></tr></table></figure>
+<p><img src="ps2.png" alt="ps"></p>
+<p>可以看到USER和启动它的应用一样,这时候并没有很高的权限.</p>
+<hr>
+<h5 id="至此在Android中运行纯java程序的方法就介绍完了-从应用中启动目前还没想到比较好的用途-如果有想到可以一起交流交流-不过从cmd中启动的方式因为权限比较高-所以还是可以做很多事情的-比如下一次要说的内容-强行开启对应应用的辅助功能"><a href="#至此在Android中运行纯java程序的方法就介绍完了-从应用中启动目前还没想到比较好的用途-如果有想到可以一起交流交流-不过从cmd中启动的方式因为权限比较高-所以还是可以做很多事情的-比如下一次要说的内容-强行开启对应应用的辅助功能" class="headerlink" title="至此在Android中运行纯java程序的方法就介绍完了,从应用中启动目前还没想到比较好的用途,如果有想到可以一起交流交流. 不过从cmd中启动的方式因为权限比较高,所以还是可以做很多事情的,比如下一次要说的内容: 强行开启对应应用的辅助功能."></a>至此在Android中运行纯java程序的方法就介绍完了,从应用中启动目前还没想到比较好的用途,如果有想到可以一起交流交流. 不过从cmd中启动的方式因为权限比较高,所以还是可以做很多事情的,比如下一次要说的内容: 强行开启对应应用的辅助功能.</h5></div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2017/03/07/2.Android辅助功能大致解析,通过adb运行纯java代码打开应用的辅助功能/">Android Accessibility大致解析,通过adb运行纯java代码打开应用的辅助功能</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'R2dcvRpPE66R69btJSJPByee-gzGzoHsz',
+  appKey:'E9T5cJlOJ4pSgbFq1UcaPJ5y',
+  placeholder:'For the horde',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/7.Kotlin基础语法/">Kotlin基础语法笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/20/6.Python的文件操作和数据库操作/">Python的文件操作和数据库操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/15/5.Python基础语法/">Python基础语法笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/31/4.Java8特性Lambda表达式和Method References在Android中的应用/">Lambda表达式和Method References在Android中的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/3.RecyclerView总结与Adapter的封装/">RecyclerView总结与多功能便捷Adapter的封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/2.Android辅助功能大致解析,通过adb运行纯java代码打开应用的辅助功能/">Android Accessibility大致解析,通过adb运行纯java代码打开应用的辅助功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/1.在Android设备上运行纯java代码/">在Android设备上运行纯java代码</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://gallonyin.github.io/" title="GallonYin" target="_blank">GallonYin</a><ul></ul><a href="http://zphuanlove.github.io/" title="zhongpeihuan" target="_blank">zhongpeihuan</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">Möbius Strip World.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
