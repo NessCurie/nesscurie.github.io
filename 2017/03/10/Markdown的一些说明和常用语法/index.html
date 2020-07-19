@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Markdown的一些说明和常用语法 | Möbius Strip World</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Markdown的一些说明和常用语法</h1><a id="logo" href="/.">Möbius Strip World</a><p class="description">That there's some good in this world, and it's worth fighting for.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Markdown的一些说明和常用语法</h1><div class="post-meta">Mar 10, 2017</div><a class="disqus-comment-count" href="/2017/03/10/Markdown%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%B4%E6%98%8E%E5%92%8C%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/#vcomment"><span class="valine-comment-count" data-xid="/2017/03/10/Markdown%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%B4%E6%98%8E%E5%92%8C%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/"></span><span> Comment</span></a><div class="post-content"><p>Markdown是一种纯文本标记语言,语法集合比较小，只是HTML标签的一小部分.<br>支持html语法，也支持html注释.</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>最后的<a href="https://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">官方标准</a>发布于2004年.<br>如今相当于没有固定的标准,于是不同解析器最终显示的效果一般都不一样;<br>不同编辑器都有细微差别,编辑器语法不统一,都有些特殊语法.</p>
+<ol>
+<li>对于排版和内容不是很复杂的内容,可以很轻便迅捷的完成.</li>
+<li>对于特殊的符号需要直接显示的使用 <code>\</code> 转义</li>
+<li>可以支持图表,图标基于文字很容易编辑,但语法复杂,可能在不同编辑器不兼容.</li>
+<li>有些针对某些特定编辑器的骚操作或搭配别的软件能产生操作需要自行查找资料和研究.</li>
+<li>插入图片需要依赖一些图床网站,不同的网站有不同的限制,可能出现链接失效或网站倒闭.</li>
+</ol>
+<h3 id="最常用的语法"><a href="#最常用的语法" class="headerlink" title="最常用的语法"></a>最常用的语法</h3><p>考虑到兼容性和实际需求,实际上最常用的就只有<strong>标题</strong>和<strong>代码</strong>还有<strong>换行</strong><br>偶尔需要使用<strong>超链接</strong>和<strong>图片</strong><br>复杂的功能比如提供下载链接和非标题锚点跳转需要使用html进行支持.</p>
+<h3 id="front-matter"><a href="#front-matter" class="headerlink" title="front matter"></a>front matter</h3><p>markdown不能保存元数据,几乎所有的静态网站生成器都使用front matter格式来进行一些配置项保存.<br>front matter在文档最顶部使用 <code>---</code> 包裹,不会显示到页面中,不同的解析器支持的内容一般也不同.</p>
+<pre><code>比如基于hexo的博客,不同的theme都会显示出不同的页面效果,支持的front matter和front matter对于的内容也不同.</code></pre><h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>基本语法在大多数编辑器上都具有支持,效果也不会相差太多.<br>但效果还是有一定差异,这里只作语法介绍,不进行效果展示.</p>
+<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>单行代码: 用 ` 包裹内容  <code>`代码内容`</code><br>多行代码: 用 ``` 包裹内容, 并可以指定一种语言,可能会有高亮显示效果</p>
+<pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">代码内容<span class="number">1</span></span><br><span class="line">代码内容<span class="number">2</span></span><br></pre></td></tr></table></figure></code></pre><h3 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h3><ol>
+<li>有些编辑器可以直接换行</li>
+<li>有些编辑器强制换行需要在末尾换行处添加2个空格并换行</li>
+<li>使用html的换行标签 <code>&lt;br /&gt;</code></li>
+</ol>
+<p>为了在最低成本的方式下还保持最高的兼容性,个人建议还是使用两个空格换行.</p>
+<p>进行段落分隔直接使用空行进行分隔,会比换行的行间距空白明显多一些</p>
+<h3 id="空格和缩进"><a href="#空格和缩进" class="headerlink" title="空格和缩进"></a>空格和缩进</h3><h6 id="这里的缩进指4个空格-不指代TAB符"><a href="#这里的缩进指4个空格-不指代TAB符" class="headerlink" title="这里的缩进指4个空格,不指代TAB符"></a>这里的缩进指4个空格,不指代TAB符</h6><p>md文件中超过一个空格的内容最终不会显示为多个空格,需要使用转义字符.<br>非代码中的缩进效果也需要多个转义字符表示.<br>所以这里建议非代码就不要进行过多的缩进了,不然md文件中将一堆转义字符.</p>
+<p>大部分编辑器会将在md文件中的缩进理解为代码块,但这种方式其实不适合表示代码块,<br>因为代码通常具有很多特殊字符,这种方式连<code>&lt;</code>都需要额外处理,并且没有语法高亮.</p>
+<p>如果要在网页中显示缩进效果:</p>
+<ol>
+<li>普通空格 <code>&amp;nbsp;</code> 或 <code>&amp;#160;</code>  比按空白键的效果会宽一点</li>
+<li>半角空格 <code>&amp;ensp;</code> 或 <code>&amp;#8194;</code> 比普通空格会更宽一点</li>
+<li>全角空格 <code>&amp;emsp;</code> 或 <code>&amp;#8195;</code>   比半角空格更宽</li>
+</ol>
+<p>具体效果在文章末尾<a href="#不同空格的显示效果">不同空格的显示效果</a>展示</p>
+<h3 id="文字凸显"><a href="#文字凸显" class="headerlink" title="文字凸显"></a>文字凸显</h3><p>加粗: 两个 * 号包裹内容 <code>**加粗**</code><br>斜体: 一个 * 号包裹内容 <code>*斜体*</code><br>斜体加粗: 三个 * 号包包裹内容 <code>***斜体加粗***</code><br>删除线: 两个 ~ 号包裹 <code>~~删除线~~</code><br>下划线: 两个 + 号包裹 <code>++下划线++</code><br>高亮: 两个 = 号包裹 <code>==高亮==</code> (有些编辑器不支持显示)</p>
+<h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p><code>[图片注脚](图片地址 &#39;&#39;图片title&#39;&#39;)</code><br>图片地址支持相对路径或网络图片地址<br>title是图片的标题，当鼠标移到图片上时显示的内容,可加可不加<br>比如: <code>[PS](ps.png)</code></p>
+<h3 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h3><p><code>[点击后需要跳转的内容](超链接地址 &quot;超链接title&quot;)</code><br>title的意义和图片相同,可加可不加<br>本身语法不支持链接在新页面中打开,有些网站和解析器做了处理修改为统一在新页面打开<br>对于不支持在新页面中打开的解析器只能用html语言的a标签<br>比如: <code>[官方标准](https://daringfireball.net/projects/markdown/)</code></p>
+<h4 id="锚点定位"><a href="#锚点定位" class="headerlink" title="锚点定位"></a>锚点定位</h4><ol>
+<li><p>md的所有标题生成为html时,实际上是一个对应等级的h标签包裹一个a标签.<br>有的编辑器是在h标签中的id为标题名称,有的是a标签中的id为标题名称.<br>那在需要锚点定位处直接使用 <code>[点击后需要跳转的内容](#标题名称)</code> 即可跳转到对应标题</p>
+</li>
+<li><p>对于非标题的跳转,在需要锚点定位到的目标处使用html标签包裹内容并添加id,在跳转处使用 <code>[点击后需要跳转的内容](#id)</code></p>
+</li>
+</ol>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><ol>
+<li><p>无序列表: 用 <code>-</code> <code>+</code> <code>*</code> 任何一种处于开头都可以</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">* </span>条目1</span><br><span class="line"><span class="bullet">* </span>条目2</span><br><span class="line"><span class="bullet">* </span>条目3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>有序列表: 直接用数字和.再加上空格</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>条目1</span><br><span class="line"><span class="bullet">2. </span>条目2</span><br><span class="line"><span class="bullet">3. </span>条目3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>列表嵌套:上一级和下一级之间敲三个空格即可<br>一般一级条目都是数字,二级条目根据不同的解析器显示的效果不同,比如有的显示为 <code>i. ii. iii.</code></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>条目1</span><br><span class="line"><span class="bullet">   1. </span>二级条目1</span><br><span class="line"><span class="bullet">   2. </span>二级条目2</span><br><span class="line"><span class="bullet">   3. </span>二级条目3</span><br><span class="line"><span class="bullet">2. </span>条目2</span><br><span class="line"><span class="bullet">3. </span>条目3</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>三个或者三个以上的 <code>-</code> 或 <code>*</code><br>比如: <code>---</code>  <code>***</code><br>一般三个以上的分割线显示效果会比只有3个更粗一点</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>引用: 引用的文字前加 <code>&gt;</code> 即可,可以嵌套无数层,不同解析器效果不同,有的甚丑,所以用的不多<br>脚注: <code>[^注明]:鼠标指向脚注显示的内容</code><br>表格<br>流程图</p>
+<h3 id="不同空格的显示效果"><a href="#不同空格的显示效果" class="headerlink" title="不同空格的显示效果"></a>不同空格的显示效果</h3><p>md中的内容代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> |</span><br><span class="line">&amp;nbsp;|  </span><br><span class="line">&amp;ensp;|  </span><br><span class="line">&amp;emsp;|</span><br></pre></td></tr></table></figure>
+
+<p>最终网页显示效果:<br> |<br>&nbsp;|<br>&ensp;|<br>&emsp;|</p>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2017/03/13/3.RecyclerView%E6%80%BB%E7%BB%93%E4%B8%8EAdapter%E7%9A%84%E5%B0%81%E8%A3%85/">RecyclerView总结与多功能便捷Adapter的封装</a><a class="next" href="/2017/03/07/2.Android%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD%E5%A4%A7%E8%87%B4%E8%A7%A3%E6%9E%90,%E9%80%9A%E8%BF%87adb%E8%BF%90%E8%A1%8C%E7%BA%AFjava%E4%BB%A3%E7%A0%81%E6%89%93%E5%BC%80%E5%BA%94%E7%94%A8%E7%9A%84%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/">Android Accessibility大致解析,通过adb运行纯java代码打开应用的辅助功能</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'R2dcvRpPE66R69btJSJPByee-gzGzoHsz',
+  appKey:'E9T5cJlOJ4pSgbFq1UcaPJ5y',
+  placeholder:'For the horde',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/11/9.EditText%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AF%E9%94%AE%E7%9B%98%E8%BE%93%E5%85%A5/">EditText 不使用系统键盘实现自定义键盘输入</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/7.Kotlin%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Kotlin基础语法笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/20/6.Python%E7%9A%84%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">Python的文件操作和数据库操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/15/5.Python%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Python基础语法笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/31/4.Java8%E7%89%B9%E6%80%A7Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8CMethod%20References%E5%9C%A8Android%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">Lambda表达式和Method References在Android中的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/3.RecyclerView%E6%80%BB%E7%BB%93%E4%B8%8EAdapter%E7%9A%84%E5%B0%81%E8%A3%85/">RecyclerView总结与多功能便捷Adapter的封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/10/Markdown%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%B4%E6%98%8E%E5%92%8C%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/">Markdown的一些说明和常用语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/2.Android%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD%E5%A4%A7%E8%87%B4%E8%A7%A3%E6%9E%90,%E9%80%9A%E8%BF%87adb%E8%BF%90%E8%A1%8C%E7%BA%AFjava%E4%BB%A3%E7%A0%81%E6%89%93%E5%BC%80%E5%BA%94%E7%94%A8%E7%9A%84%E8%BE%85%E5%8A%A9%E5%8A%9F%E8%83%BD/">Android Accessibility大致解析,通过adb运行纯java代码打开应用的辅助功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/1.%E5%9C%A8Android%E8%AE%BE%E5%A4%87%E4%B8%8A%E8%BF%90%E8%A1%8C%E7%BA%AFjava%E4%BB%A3%E7%A0%81/">在Android设备上运行纯java代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/26/git/Git%E7%AE%80%E4%BB%8B%E5%92%8C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Git使用中的一些概念简介和常用命令详解</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://gallonyin.github.io/" title="GallonYin" target="_blank">GallonYin</a><ul></ul><a href="http://zphuanlove.github.io/" title="zhongpeihuan" target="_blank">zhongpeihuan</a><ul></ul><a href="https://wkingdom.github.io/" title="WZKingdom" target="_blank">WZKingdom</a><ul></ul><a href="https://ray9972.github.io/" title="Ray" target="_blank">Ray</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">Möbius Strip World.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
