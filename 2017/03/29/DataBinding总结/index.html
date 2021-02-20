@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>DataBinding的使用和当前版本还存在的问题总结 | Möbius Strip World</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">DataBinding的使用和当前版本还存在的问题总结</h1><a id="logo" href="/.">Möbius Strip World</a><p class="description">What will your verse be ？</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">DataBinding的使用和当前版本还存在的问题总结</h1><div class="post-meta">Mar 29, 2017</div><a class="disqus-comment-count" href="/2017/03/29/DataBinding%E6%80%BB%E7%BB%93/#vcomment"><span class="valine-comment-count" data-xid="/2017/03/29/DataBinding%E6%80%BB%E7%BB%93/"></span><span> Comment</span></a><div class="post-content"><p>DataBinding的使用都是固定的规则和格式,不存在多少可变的地方,所以主要采用文字进行描述,然后展示示例;如果在过程中遇到了一些问题,可以先跳转到下方查看目前还存在的问题.</p>
+<p>官方文档可以查看 : <a href="https://developer.android.com/topic/libraries/data-binding/index.html" target="_blank" rel="noopener">Data Binding Library</a></p>
+<h2 id="DataBinding的使用"><a href="#DataBinding的使用" class="headerlink" title="DataBinding的使用"></a>DataBinding的使用</h2><p>在编写代码之前,需要在module的build.gradle中android节点下开启dataBinding插件</p>
+<pre><code>android {
+    ....
+    dataBinding {
+        enabled = true
+    }
+}
+</code></pre>
+
+<p>使用DataBinding,在Activity中不再使用<code>setContentView()</code>而是<code>DataBindingUtil.setContentView(context, layoutId);</code>将特殊的activity的xml文件进行绑定;<br>也可以使用<code>DataBindingUtil.inflate(inflater,layoutId,viewgroup, attachToParent);</code>方法获取绑定对象;</p>
+<p>上面2个方法的返回值是由框架生成的一个类,生成类的名称如果未在xml文件中主动声明是xml文件名称去掉下划线后进行驼峰命名加上Binding;比如:activity_main.xml生成的类名为ActivityMainBinding.</p>
+<h4 id="1-xml文件的编写"><a href="#1-xml文件的编写" class="headerlink" title="1.xml文件的编写"></a>1.xml文件的编写</h4><ol>
+<li>在布局的xml文件中,根节点需要使用layout节点,并且节点上的属性除了命名空间其他都不能添加.<br></br></br></li>
+<li>在layout节点中,编写data节点,data节点除了使用class属性声明生成的类的名称以外不能添加其他属性,class的属性支持3种方式:<ol>
+<li>全包名 + 类名 : 框架生成的类将在你的指定的全包名位置</li>
+<li>.类名 : 框架生成的类将会存在你的包的根目录下</li>
+<li>类名 : 框架生成的类将会存在你的包的根目录下的databinding文件夹中<br>声明之后在代码中进行导包会导入指定位置的类,生成的类和R文件一样存放在在build中.<br></br></br></li>
+</ol>
+</li>
+<li>在data节点下使用variable节点的type属性声明类型,name声明变量名;</br><ol>
+<li>type节点的内容和在代码中一样:除了java.lang下的不需要导包,其他都需要进行导包,导包是在data节点下使用import节点的type属性进行声明,当然也可以在type中写入全包名+类名</li>
+<li>如果指定的类型要添加泛型,泛型的包裹需要使用xml的转义符包裹,不过还是会显示红色的错误,但是可以正常运行.</li>
+<li>声明数组时也会显示红色错误,正常运行<br></br></br></li>
+</ol>
+</li>
+<li>在layout节点下编写控件节点,需要注意的是所有控件必须在一个根节点下,否则会报错,即layout节点下只允许有2个子节点:一个data节点,一个控件的根节点.<ol>
+<li>在控件中的属性如果需要使用data节点中声明的对象,使用的格式为 @{对象名}或@{对象名.变量名}</li>
+<li>如果是List集合为:@{索引},</li>
+<li>如果是map集合为: @{<code>key</code>} 字符串需要使用`(数字键1左边的按键)来包裹,使用指定字符串获取value,或 @{变量名}使用变量的值作为key获取value<br></br></br></li>
+</ol>
+</li>
+</ol>
+<h2 id="DataBinding目前还存在的问题"><a href="#DataBinding目前还存在的问题" class="headerlink" title="DataBinding目前还存在的问题"></a>DataBinding目前还存在的问题</h2><ol>
+<li>编写xml文件后自动生成类不够及时,有时还需要Make Project或Rebuild Project一下才生成,添加variable后回到代码中也是同样的情况.</li>
+<li>有时代码编写错误时IDE显示的报错位置不是真正错的</li>
+<li>在variable节点的type属性中声明泛型使用转义符后还是显示红色的错误,声明数组时也会显示红色错误,不过都可以正常运行</li>
+<li>使用@BindingAdapter注解时,按照官方文档中后面跟着的参数格式({“bind:xxx”, “bind:xxxx”})有bind时会抛出一个警告,去掉bind后无警告并且正常运行</li>
+</ol>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2017/03/31/Java8%E7%89%B9%E6%80%A7Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8CMethod%20References%E5%9C%A8Android%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">Lambda表达式和Method References在Android中的应用</a><a class="next" href="/2017/03/13/RecyclerView%E6%80%BB%E7%BB%93%E4%B8%8EAdapter%E7%9A%84%E5%B0%81%E8%A3%85/">RecyclerView总结与多功能便捷Adapter的封装</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'R2dcvRpPE66R69btJSJPByee-gzGzoHsz',
+  appKey:'E9T5cJlOJ4pSgbFq1UcaPJ5y',
+  placeholder:'Why so serious?',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/EditText/" style="font-size: 15px;">EditText</a> <a href="/tags/RecyclerView/" style="font-size: 15px;">RecyclerView</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/02/10/AboutMeInTheseFourYears/">新旅途之前的记录与总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/11/git/SVN%E8%BF%81%E7%A7%BB%E5%88%B0Git%E4%BF%9D%E7%95%99%E5%AE%8C%E6%95%B4%E7%9A%84log/">SVN迁移到Git保留完整的log</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/11/EditText%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AF%E9%94%AE%E7%9B%98%E8%BE%93%E5%85%A5/">EditText 不使用系统键盘实现自定义键盘输入</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/07/byte%E6%95%B0%E7%BB%84%E5%BC%8F%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/%E4%BD%BF%E7%94%A8%E6%A0%91%E7%BB%93%E6%9E%84%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%B9Java%E7%9A%84byte%E6%95%B0%E7%BB%84%E8%BF%9B%E8%A1%8C%E5%BF%AB%E9%80%9F%E8%A7%A3%E6%9E%90%E5%92%8C%E6%9E%84%E5%BB%BA/">使用树结构的方式对Java的byte数组进行快速解析和构建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/byte%E6%95%B0%E7%BB%84%E5%BC%8F%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/%E5%B0%86Java%E7%9A%84byte%E6%95%B0%E7%BB%84%E5%88%86%E6%AE%B5%E8%A7%A3%E6%9E%90%E4%B8%BA%E6%89%80%E9%9C%80%E6%95%B0%E6%8D%AE%E7%9A%84%E5%B7%A5%E5%85%B7%E7%B1%BBBytesReader/">将Java的byte数组分段解析为所需数据的工具类BytesReader</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/25/byte%E6%95%B0%E7%BB%84%E5%BC%8F%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/%E5%8F%82%E7%85%A7ArrayList%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%83%BD%E6%B7%BB%E5%8A%A0%E4%BB%BB%E6%84%8F%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84ByteArrayList/">参照ArrayList实现一个能添加任意数据类型的ByteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/byte%E6%95%B0%E7%BB%84%E5%BC%8F%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/%E5%A4%A7%E5%B0%8F%E7%AB%AFbyte%E6%95%B0%E7%BB%84%E5%92%8C%E5%90%84%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%BA%92%E8%BD%AC/">大小端byte数组和各种数据类型的互转</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/12/%E6%BA%90%E7%A0%81%E7%8E%AF%E5%A2%83Android.mk%E7%BC%96%E8%AF%91APK/">源码环境Android.mk编译APK</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Kotlin%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Kotlin基础语法笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/20/Python%E7%9A%84%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">Python的文件操作和数据库操作</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://gallonyin.github.io/" title="GallonYin" target="_blank">GallonYin</a><ul></ul><a href="http://zphuanlove.github.io/" title="zhongpeihuan" target="_blank">zhongpeihuan</a><ul></ul><a href="https://blog.csdn.net/qq_33487044" title="雪松研究所" target="_blank">雪松研究所</a><ul></ul><a href="https://wkingdom.github.io/" title="WZKingdom" target="_blank">WZKingdom</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">Möbius Strip World.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
